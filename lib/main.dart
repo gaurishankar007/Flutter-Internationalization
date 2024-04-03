@@ -1,33 +1,54 @@
-import 'package:internationalization/config/routes/routes.dart';
-import 'package:internationalization/config/themes/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'presentation/cubits/language/language_cubit.dart';
+import 'home.dart';
+import 'inheritedNotifier/language_change_notifier.dart';
+import 'inheritedNotifier/language_inherited_notifier.dart';
+// import 'localization/json_localization.dart';
 
 main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final changeNotifier = LanguageChangeNotifier();
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LanguageCubit(),
-      child: BlocBuilder<LanguageCubit, LanguageState>(
-        builder: (context, state) {
+    return LanguageInheritedNotifier(
+      notifier: changeNotifier,
+      changeLanguage: changeNotifier.setLocale,
+      child: Builder(
+        builder: (context) {
+          // final notifierWidget = LanguageInheritedNotifier.of(context);
+
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Internationalization and Localization',
-            theme: lightTheme,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            locale: state.locale,
-            initialRoute: "/home",
-            onGenerateRoute: AppRoute.onGenerated,
+            localeResolutionCallback: (locale, supportedLocales) {
+              for (final supportedLocale in supportedLocales) {
+                if (supportedLocale.languageCode == locale?.languageCode &&
+                    supportedLocale.countryCode == locale?.countryCode) {
+                  return locale;
+                }
+              }
+
+              return supportedLocales.first;
+            },
+            // localizationsDelegates: JsonLocalizations.localizationsDelegates,
+            // supportedLocales: JsonLocalizations.supportedLocales,
+            // localeResolutionCallback: JsonLocalizations.localeResolutionCallback,
+            // locale: notifierWidget.notifier?.locale,
+            home: const Home(json: false),
           );
         },
       ),
