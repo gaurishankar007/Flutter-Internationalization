@@ -5,8 +5,8 @@ import 'inheritedNotifier/language_change_notifier.dart';
 import 'inheritedNotifier/language_inherited_notifier.dart';
 
 class Home extends StatefulWidget {
-  final bool json;
-  const Home({super.key, required this.json});
+  final bool isJsonLocalization;
+  const Home({super.key, required this.isJsonLocalization});
 
   @override
   State<Home> createState() => _HomeState();
@@ -18,24 +18,25 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final notifierWidget = LanguageInheritedNotifier.of(context);
-    String title = widget.json
+    String title = widget.isJsonLocalization
         ? context.jsonLocalizations.translate("flutterInternationalization")
         : context.appLocalizations.flutterInternationalization;
-    String languageSelection = widget.json
+    String languageSelection = widget.isJsonLocalization
         ? context.jsonLocalizations.translate("languageSelection")
         : context.appLocalizations.languageSelection;
 
-    String english = widget.json
+    String english = widget.isJsonLocalization
         ? context.jsonLocalizations.translate("english")
         : context.appLocalizations.english;
-    String nepali = widget.json
+    String nepali = widget.isJsonLocalization
         ? context.jsonLocalizations.translate("nepali")
         : context.appLocalizations.nepali;
-    String spanish = widget.json
+    String spanish = widget.isJsonLocalization
         ? context.jsonLocalizations.translate("spanish")
         : context.appLocalizations.spanish;
-    String hindi =
-        widget.json ? context.jsonLocalizations.translate("hindi") : context.appLocalizations.hindi;
+    String hindi = widget.isJsonLocalization
+        ? context.jsonLocalizations.translate("hindi")
+        : context.appLocalizations.hindi;
 
     return Scaffold(
       appBar: AppBar(title: Text(title)),

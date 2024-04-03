@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
             // supportedLocales: JsonLocalizations.supportedLocales,
             // localeResolutionCallback: JsonLocalizations.localeResolutionCallback,
             // locale: notifierWidget.notifier?.locale,
-            home: const Home(json: false),
+            home: const Home(isJsonLocalization: false),
           );
         },
       ),
