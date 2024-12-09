@@ -4,20 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-class JsonLocalizations {
+class JsonLocalization {
   late final Locale _locale;
   late Map<String, String> _localizedValues;
 
-  JsonLocalizations(this._locale);
+  JsonLocalization(this._locale);
 
   /// Helper method to keep the code in the widgets concise
   /// Localizations are accessed using an InheritedWidget "of" syntax
-  static JsonLocalizations? of(BuildContext context) {
-    return Localizations.of<JsonLocalizations>(context, JsonLocalizations);
+  static JsonLocalization? of(BuildContext context) {
+    return Localizations.of<JsonLocalization>(context, JsonLocalization);
   }
 
   /// Static member to have a simple access to the delegate from the MaterialApp
-  static const LocalizationsDelegate<JsonLocalizations> delegate = _JsonLocalizationsDelegate();
+  static const LocalizationsDelegate<JsonLocalization> delegate =
+      _JsonLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -37,7 +38,8 @@ class JsonLocalizations {
     Locale('ne')
   ];
 
-  static LocaleResolutionCallback? get localeResolutionCallback => (locale, supportedLocales) {
+  static LocaleResolutionCallback? get localeResolutionCallback =>
+      (locale, supportedLocales) {
         // Check if the current device locale is supported
         for (final supportedLocale in supportedLocales) {
           if (supportedLocale.languageCode == locale?.languageCode &&
@@ -53,7 +55,8 @@ class JsonLocalizations {
 
   Future<bool> loadLanguage() async {
     /// Load the language JSON file from the assets folder
-    String jsonStringValues = await rootBundle.loadString("${_locale.languageCode}.json");
+    String jsonStringValues =
+        await rootBundle.loadString("assets/language/${_locale.languageCode}.json");
     Map<String, dynamic> jsonMap = json.decode(jsonStringValues);
 
     /// Converting `dynamic` value to `String` from Map<String, dynamic>
@@ -71,7 +74,8 @@ class JsonLocalizations {
 
 /// LocalizationsDelegate is a factory for a set of localized resources
 /// In this case, the localized strings will be gotten in an AppLocalizations object
-class _JsonLocalizationsDelegate extends LocalizationsDelegate<JsonLocalizations> {
+class _JsonLocalizationsDelegate
+    extends LocalizationsDelegate<JsonLocalization> {
   /// This delegate instance will never change (it doesn't even have fields!)
   /// It can provide a constant constructor.
   const _JsonLocalizationsDelegate();
@@ -83,9 +87,9 @@ class _JsonLocalizationsDelegate extends LocalizationsDelegate<JsonLocalizations
   }
 
   @override
-  Future<JsonLocalizations> load(Locale locale) async {
+  Future<JsonLocalization> load(Locale locale) async {
     /// AppLocalizations class is where the JSON loading actually runs
-    JsonLocalizations appLocalization = JsonLocalizations(locale);
+    JsonLocalization appLocalization = JsonLocalization(locale);
     await appLocalization.loadLanguage();
     return appLocalization;
   }

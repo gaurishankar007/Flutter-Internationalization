@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'home.dart';
 import 'inheritedNotifier/language_change_notifier.dart';
 import 'inheritedNotifier/language_inherited_notifier.dart';
+import 'l10n/generated/app_localization.dart';
 // import 'localization/json_localization.dart';
 
 main() {
-  runApp(const MyApp());
+  runApp(const InternationalizationExample());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class InternationalizationExample extends StatefulWidget {
+  const InternationalizationExample({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<InternationalizationExample> createState() =>
+      _InternationalizationExampleState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _InternationalizationExampleState
+    extends State<InternationalizationExample> {
   final changeNotifier = LanguageChangeNotifier();
 
   @override
@@ -27,13 +29,13 @@ class _MyAppState extends State<MyApp> {
       changeLanguage: changeNotifier.setLocale,
       child: Builder(
         builder: (context) {
-          // final notifierWidget = LanguageInheritedNotifier.of(context);
+          final notifierWidget = LanguageInheritedNotifier.of(context);
 
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Internationalization and Localization',
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: AppLocalization.localizationsDelegates,
+            supportedLocales: AppLocalization.supportedLocales,
             localeResolutionCallback: (locale, supportedLocales) {
               for (final supportedLocale in supportedLocales) {
                 if (supportedLocale.languageCode == locale?.languageCode &&
@@ -44,10 +46,10 @@ class _MyAppState extends State<MyApp> {
 
               return supportedLocales.first;
             },
-            // localizationsDelegates: JsonLocalizations.localizationsDelegates,
-            // supportedLocales: JsonLocalizations.supportedLocales,
-            // localeResolutionCallback: JsonLocalizations.localeResolutionCallback,
-            // locale: notifierWidget.notifier?.locale,
+            // localizationsDelegates: JsonLocalization.localizationsDelegates,
+            // supportedLocales: JsonLocalization.supportedLocales,
+            // localeResolutionCallback: JsonLocalization.localeResolutionCallback,
+            locale: notifierWidget.notifier?.locale,
             home: const Home(isJsonLocalization: false),
           );
         },
