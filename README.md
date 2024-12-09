@@ -48,10 +48,10 @@ Localization using Flutter's native support via `.arb` files:
   untranslated-messages-file: l10n_errors.txt
   ```
 
-#### **1. Json-based Localization**
+#### **2. Json-based Localization**
 
 The app uses a custom `JsonLocalization` class to manage translations:
 
-1. **JSON File Loading**: The app fetches the appropriate language JSON file based on the selected locale.
-2. **Localized String Retrieval**: Translations are accessed using the `translate(String key)` method.
-3. **Localization Delegate**: A custom `LocalizationsDelegate` (`_JsonLocalizationsDelegate`) integrates with Flutter's localization system.
+- **JSON File Loading**: The app fetches the appropriate language JSON file based on the selected locale.
+- **Localized String Retrieval**: Translations are accessed using the `translate(String key)` method.
+- **Localization Delegate**: A custom `LocalizationsDelegate` (`_JsonLocalizationsDelegate`) integrates with Flutter's localization system.
